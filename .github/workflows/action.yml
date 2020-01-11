@@ -6,8 +6,9 @@ on:
     - cron: '0 17 * * *'
 
 jobs:
-  runs-on: ubuntu-latest
-  steps:
+  get_points:
+    runs-on: ubuntu-latest
+    steps:
     - name: 'Checkout codes'
       uses: actions/checkout@v2
     - name: 'Set python'
