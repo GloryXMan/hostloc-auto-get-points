@@ -72,5 +72,5 @@ if __name__ == "__main__":
             get_points(s, i + 1)
             print("******************************")
         except Exception as e:
-            print("密码个数不匹配：" + str(e))
+            print("密码个数不匹配，错误信息：" + str(e))
         continue
