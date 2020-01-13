@@ -57,7 +57,7 @@ def get_points(s, number_c):
                 print("用户空间链接：" + url + " 访问成功")
                 time.sleep(4)  # 每访问一个链接后休眠4秒，以避免触发论坛的防cc机制
             except Exception as e:
-                print(str(e))
+                print("链接访问异常：" + str(e))
             continue
     else:
         print("请检查你的帐户是否正确！")
@@ -82,5 +82,5 @@ if __name__ == "__main__":
             if str(e) == "list index out of range":
                 print("用户名与密码个数不匹配！")
             else:
-                print(str(e))
+                print("获取积分异常：" + str(e))
         continue
