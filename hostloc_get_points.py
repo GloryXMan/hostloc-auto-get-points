@@ -71,16 +71,20 @@ if __name__ == "__main__":
     user_list = username.split(",")
     passwd_list = password.split(",")
 
-    # 使用for和try/except实现当前用户获取积分出错时不中断程序继续尝试下一个用户
-    for i in range(len(user_list)):
-        try:
-            s = login(user_list[i], passwd_list[i])
-            get_points(s, i + 1)
-            print("******************************")
-        except Exception as e:
-            # 已知的一个能触发异常的问题，方便用户检查
-            if str(e) == "list index out of range":
-                print("用户名与密码个数不匹配！")
-            else:
+    if len(user_list) != len(passwd_list):
+        print("用户名与密码个数不匹配，请检查环境变量设置是否错漏！")
+    else:
+        print("共检测到" + str(len(user_list)) + "个帐户，开始获取积分")
+        print("**************************************************")
+
+        # 使用for和try/except实现当前用户获取积分出错时不中断程序继续尝试下一个用户
+        for i in range(len(user_list)):
+            try:
+                s = login(user_list[i], passwd_list[i])
+                get_points(s, i + 1)
+                print("**************************************************")
+            except Exception as e:
                 print("获取积分异常：" + str(e))
-        continue
+            continue
+
+        print("程序执行完毕，获取积分结束")
