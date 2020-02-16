@@ -2,6 +2,8 @@ name: 'Hostloc Auto Get Points'
 
 on:
   push:
+    branches: 
+      - master
   schedule:
     - cron: '0 17 * * *'
 
