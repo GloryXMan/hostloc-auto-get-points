@@ -51,10 +51,11 @@ def get_points(s, number_c):
     if check_login_status(s, number_c):
         url_list = randomly_gen_uspace_url()
         # 使用for和try/except实现当前链接访问出错时不中断程序继续访问下一个链接
-        for url in url_list:
+        for i in range(len(url_list)):
+            url = url_list[i]
             try:
                 s.get(url)
-                print("用户空间链接：" + url + " 访问成功")
+                print("第 " + str(i + 1) + " 个空间访问成功")
                 time.sleep(4)  # 每访问一个链接后休眠4秒，以避免触发论坛的防cc机制
             except Exception as e:
                 print("链接访问异常：" + str(e))
