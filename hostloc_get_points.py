@@ -19,13 +19,17 @@ def randomly_gen_uspace_url() -> list:
 # 登录帐户
 def login(username: str, password: str) -> req_Session:
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36"
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36",
+        "origin": "https://www.hostloc.com",
+        "referer": "https://www.hostloc.com/forum.php",
     }
     login_url = "https://www.hostloc.com/member.php?mod=logging&action=login&loginsubmit=yes&infloat=yes&lssubmit=yes&inajax=1"
     login_data = {
         "fastloginfield": "username",
         "username": username,
         "password": password,
+        "quickforward": "yes",
+        "handlekey": "ls",
     }
     s = req_Session()
     res = s.post(url=login_url, data=login_data, headers=headers)
@@ -59,7 +63,7 @@ def get_points(s: req_Session, number_c: int):
                 res = s.get(url)
                 res.raise_for_status()
                 print("第", i + 1, "个用户空间链接访问成功")
-                time.sleep(4)  # 每访问一个链接后休眠4秒，以避免触发论坛的防cc机制
+                time.sleep(5)  # 每访问一个链接后休眠5秒，以避免触发论坛的防cc机制
             except Exception as e:
                 print("链接访问异常：" + str(e))
             continue
