@@ -1,4 +1,5 @@
 import os
+import requests
 from requests import Session as req_Session
 import time
 import random
@@ -71,6 +72,14 @@ def get_points(s: req_Session, number_c: int):
         print("请检查你的帐户是否正确！")
 
 
+# 打印输出当前ip地址
+def print_my_ip():
+    api_url = "https://api.ipify.org/"
+    res = requests.get(url=api_url)
+    res.encoding = "utf-8"
+    print("当前使用 ip 地址：" + res.text)
+
+
 if __name__ == "__main__":
     username = os.environ["HOSTLOC_USERNAME"]
     password = os.environ["HOSTLOC_PASSWORD"]
@@ -82,6 +91,7 @@ if __name__ == "__main__":
     if len(user_list) != len(passwd_list):
         print("用户名与密码个数不匹配，请检查环境变量设置是否错漏！")
     else:
+        print_my_ip()
         print("共检测到", len(user_list), "个帐户，开始获取积分")
         print("*" * 30)
 
