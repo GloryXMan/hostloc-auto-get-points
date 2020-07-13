@@ -44,18 +44,38 @@ def check_login_status(s: req_Session, number_c: int) -> bool:
     res = s.get(test_url)
     res.raise_for_status()
     res.encoding = "utf-8"
-    test_title = re.findall("<title>.*?</title>", res.text)
-    if test_title[0] != "<title>个人资料 -  全球主机交流论坛 -  Powered by Discuz!</title>":
-        print("第", number_c, "个帐户登录失败！")
-        return False
+    test_title = re.findall("<title>(.*?)<\/title>", res.text)
+    if len(test_title) != 0:  # 确保正则匹配到了内容，防止出现数组索引越界的情况
+        if test_title[0] != "个人资料 -  全球主机交流论坛 -  Powered by Discuz!":
+            print("第", number_c, "个帐户登录失败！")
+            return False
+        else:
+            point = re.findall("积分: (\d+)", res.text)
+            print("第", number_c, "个帐户登录成功！")
+            return True
     else:
-        print("第", number_c, "个帐户登录成功！")
-        return True
+        print("未在用户设置页面找到标题，该页面可能存在错误！")
+        return False
+
+
+# 抓取并打印输出帐户当前积分
+def print_current_points(s: req_Session):
+    test_url = "https://www.hostloc.com/forum.php"
+    res = s.get(test_url)
+    res.raise_for_status()
+    res.encoding = "utf-8"
+    points = re.findall("积分: (\d+)", res.text)
+    if len(points) != 0:  # 确保正则匹配到了内容，防止出现数组索引越界的情况
+        print("帐户当前积分：" + points[0])
+    else:
+        print("无法获取帐户积分，可能页面存在错误或者未登录！")
+    time.sleep(5)
 
 
 # 依次访问随机生成的用户空间链接获取积分
 def get_points(s: req_Session, number_c: int):
     if check_login_status(s, number_c):
+        print_current_points(s)  # 打印帐户当前积分
         url_list = randomly_gen_uspace_url()
         # 依次访问用户空间链接获取积分，出现错误时不中断程序继续尝试访问下一个链接
         for i in range(len(url_list)):
@@ -68,6 +88,7 @@ def get_points(s: req_Session, number_c: int):
             except Exception as e:
                 print("链接访问异常：" + str(e))
             continue
+        print_current_points(s)  # 再次打印帐户当前积分
     else:
         print("请检查你的帐户是否正确！")
 
@@ -75,9 +96,13 @@ def get_points(s: req_Session, number_c: int):
 # 打印输出当前ip地址
 def print_my_ip():
     api_url = "https://api.ipify.org/"
-    res = requests.get(url=api_url)
-    res.encoding = "utf-8"
-    print("当前使用 ip 地址：" + res.text)
+    try:
+        res = requests.get(url=api_url)
+        res.raise_for_status()
+        res.encoding = "utf-8"
+        print("当前使用 ip 地址：" + res.text)
+    except Exception as e:
+        print("获取当前 ip 地址失败：" + str(e))
 
 
 if __name__ == "__main__":
