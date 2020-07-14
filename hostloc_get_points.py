@@ -50,7 +50,6 @@ def check_login_status(s: req_Session, number_c: int) -> bool:
             print("第", number_c, "个帐户登录失败！")
             return False
         else:
-            point = re.findall("积分: (\d+)", res.text)
             print("第", number_c, "个帐户登录成功！")
             return True
     else:
