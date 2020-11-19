@@ -68,7 +68,7 @@ def print_current_points(s: req_Session):
         print("帐户当前积分：" + points[0])
     else:
         print("无法获取帐户积分，可能页面存在错误或者未登录！")
-    time.sleep(5)
+    time.sleep(7)
 
 
 # 依次访问随机生成的用户空间链接获取积分
