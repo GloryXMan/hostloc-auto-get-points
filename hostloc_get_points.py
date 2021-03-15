@@ -59,7 +59,7 @@ def check_login_status(s: req_Session, number_c: int) -> bool:
 
 # 抓取并打印输出帐户当前积分
 def print_current_points(s: req_Session):
-    test_url = "https://www.hostloc.com/forum.php"
+    test_url = "https://hostloc.com/forum.php"
     res = s.get(test_url)
     res.raise_for_status()
     res.encoding = "utf-8"
