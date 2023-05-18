@@ -1,0 +1,25 @@
+name: Auto Push  # 工作流程的名称
+
+on:
+  workflow_run:  # 触发器配置：当另一个工作流程运行完成时触发
+    workflows: ["Hostloc Auto Get Points"]  # 指定要触发的工作流程名称
+    types:
+      - completed  # 仅在指定工作流程完成时触发
+
+jobs:
+  push_changes:  # 作业的名称
+    runs-on: ubuntu-latest  # 在最新版本的 Ubuntu 操作系统上运行作业
+
+    steps:
+      - name: 'Checkout repository'  # 步骤名称：检出代码库
+        uses: actions/checkout@v2  # 使用的操作：检出代码库
+
+      - name: 'Configure Git'  # 步骤名称：配置 Git
+        run: |
+          git config --global user.name "GloryXMan"  # 配置全局的用户名
+          git config --global user.email "dmking923@hotmail.com"  # 配置全局的电子邮件地址
+
+      - name: 'Push changes'  # 步骤名称：推送更改
+        run: |
+          git commit --allow-empty -m "Automatic push"  # 提交一个空的更改，带有提交消息 "Automatic push"
+          git push  # 推送更改
